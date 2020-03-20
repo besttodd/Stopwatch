@@ -1,7 +1,9 @@
 package au.edu.jcu.cp3406.wk4stopwatch;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -11,7 +13,7 @@ public class StopwatchActivity extends AppCompatActivity {
     boolean isRunning = false;
     Stopwatch stopwatch = new Stopwatch();
     private int speed;
-    //final Handler handler = new Handler();
+    final Handler handler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +42,7 @@ public class StopwatchActivity extends AppCompatActivity {
         //outState.putInt("speed", speed);
     }
 
-    /*@Override
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
@@ -48,10 +50,11 @@ public class StopwatchActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 if (data != null) {
                     speed = data.getIntExtra("speed", 1000);
+                    System.out.println("SPEED = " + speed);
                 }
             }
         }
-    }*/
+    }
 
     public void startClicked (View view) {
         enableStopwatch();
@@ -67,14 +70,13 @@ public class StopwatchActivity extends AppCompatActivity {
         updateDisplay();
     }
 
-    /*public void settingsClicked(View view) {
-        Intent intent = new Intent();
+    public void settingsClicked(View view) {
+        Intent intent = new Intent(this, SettingsActivity.class);
         startActivityForResult(intent, SettingsActivity.SETTINGS_REQUEST);
-    }*/
+    }
 
     private void enableStopwatch() {
         isRunning = true;
-        final Handler handler = new Handler();
 
         handler.post(new Runnable() {
             @Override

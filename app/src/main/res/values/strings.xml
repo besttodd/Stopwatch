@@ -3,4 +3,6 @@
     <string name="start">START</string>
     <string name="reset">RESET</string>
     <string name="stop">STOP</string>
+    <string name="done">Done</string>
+    <string name="settings">Settings</string>
 </resources>
