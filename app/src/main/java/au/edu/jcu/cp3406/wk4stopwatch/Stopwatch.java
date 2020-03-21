@@ -4,6 +4,7 @@ public class Stopwatch {
     private int hours;
     private int minutes;
     private int seconds;
+    private boolean isRunning;
 
     public Stopwatch() {
         this.hours = 0;

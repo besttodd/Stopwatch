@@ -12,8 +12,9 @@ import android.widget.TextView;
 public class StopwatchActivity extends AppCompatActivity {
     boolean isRunning = false;
     Stopwatch stopwatch = new Stopwatch();
-    private int speed;
+    private int speed = 1000;
     final Handler handler = new Handler();
+    Runnable runnable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +27,7 @@ public class StopwatchActivity extends AppCompatActivity {
         } else {
             stopwatch = new Stopwatch(savedInstanceState.getString("stopwatch"));
             boolean running = savedInstanceState.getBoolean("running");
-            //int currentSpeed = savedInstanceState.getInt("speed");
+            int currentSpeed = savedInstanceState.getInt("speed");
             if (running) {
                 enableStopwatch();
             }
@@ -39,7 +40,7 @@ public class StopwatchActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
         outState.putString("stopwatch", stopwatch.toString());
         outState.putBoolean("running", isRunning);
-        //outState.putInt("speed", speed);
+        outState.putInt("speed", speed);
     }
 
     @Override
@@ -68,6 +69,7 @@ public class StopwatchActivity extends AppCompatActivity {
         disableStopwatch();
         stopwatch.reset();
         updateDisplay();
+        handler.removeCallbacks(runnable);
     }
 
     public void settingsClicked(View view) {
@@ -77,8 +79,8 @@ public class StopwatchActivity extends AppCompatActivity {
 
     private void enableStopwatch() {
         isRunning = true;
-
-        handler.post(new Runnable() {
+        //handler.removeCallbacks();
+        handler.post(runnable = new Runnable() {
             @Override
             public void run() {
                 if (isRunning) {
@@ -86,14 +88,14 @@ public class StopwatchActivity extends AppCompatActivity {
                     System.out.println("TICK TICK TICK TICK");
                     updateDisplay();
                 }
-
-                handler.postDelayed(this,1000);
+                handler.postDelayed(this, speed);
             }
         });
     }
 
     private void disableStopwatch() {
         isRunning = false;
+        handler.removeCallbacks(runnable);
     }
 
     private void updateDisplay() {
