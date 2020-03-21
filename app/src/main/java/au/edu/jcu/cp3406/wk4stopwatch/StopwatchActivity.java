@@ -7,12 +7,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 public class StopwatchActivity extends AppCompatActivity {
     boolean isRunning = false;
     Stopwatch stopwatch = new Stopwatch();
-    private int speed = 1000;
+    //private int speed = 1000;
     final Handler handler = new Handler();
     Runnable runnable;
 
@@ -27,7 +28,8 @@ public class StopwatchActivity extends AppCompatActivity {
         } else {
             stopwatch = new Stopwatch(savedInstanceState.getString("stopwatch"));
             boolean running = savedInstanceState.getBoolean("running");
-            int currentSpeed = savedInstanceState.getInt("speed");
+            stopwatch.setSpeed(savedInstanceState.getInt("speed"));
+            System.out.println("onCREATE() CALLED------------------------------------------------");
             if (running) {
                 enableStopwatch();
             }
@@ -40,7 +42,7 @@ public class StopwatchActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
         outState.putString("stopwatch", stopwatch.toString());
         outState.putBoolean("running", isRunning);
-        outState.putInt("speed", speed);
+        outState.putInt("speed", stopwatch.getSpeed());
     }
 
     @Override
@@ -50,8 +52,8 @@ public class StopwatchActivity extends AppCompatActivity {
         if (requestCode == SettingsActivity.SETTINGS_REQUEST) {
             if (resultCode == RESULT_OK) {
                 if (data != null) {
-                    speed = data.getIntExtra("speed", 1000);
-                    System.out.println("SPEED = " + speed);
+                    stopwatch.setSpeed(data.getIntExtra("speed", 1000));
+                    System.out.println("SPEED = " + stopwatch.getSpeed()+"-----------------------");
                 }
             }
         }
@@ -59,10 +61,14 @@ public class StopwatchActivity extends AppCompatActivity {
 
     public void startClicked (View view) {
         enableStopwatch();
+        Button start = findViewById(R.id.startButton);
+        start.setEnabled(false);
     }
 
     public void stopClicked(View view) {
         disableStopwatch();
+        Button start = findViewById(R.id.startButton);
+        start.setEnabled(true);
     }
 
     public void resetClicked(View view) {
@@ -70,10 +76,13 @@ public class StopwatchActivity extends AppCompatActivity {
         stopwatch.reset();
         updateDisplay();
         handler.removeCallbacks(runnable);
+        Button start = findViewById(R.id.startButton);
+        start.setEnabled(true);
     }
 
     public void settingsClicked(View view) {
         Intent intent = new Intent(this, SettingsActivity.class);
+        intent.putExtra("speed", stopwatch.getSpeed());
         startActivityForResult(intent, SettingsActivity.SETTINGS_REQUEST);
     }
 
@@ -88,7 +97,7 @@ public class StopwatchActivity extends AppCompatActivity {
                     System.out.println("TICK TICK TICK TICK");
                     updateDisplay();
                 }
-                handler.postDelayed(this, speed);
+                handler.postDelayed(this, stopwatch.getSpeed());
             }
         });
     }
