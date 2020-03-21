@@ -13,14 +13,13 @@
         android:layout_height="wrap_content"
         android:textSize="36sp"
         android:textAlignment="center"
-        android:text="00:00:00" />
+        android:text="@string/defaultDisplay" />
 
     <Button
         android:id="@+id/startButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:onClick="startClicked"
         android:text="@string/start" />
 
     <Button
@@ -30,14 +29,6 @@
         android:layout_gravity="center"
         android:onClick="resetClicked"
         android:text="@string/reset" />
-
-    <Button
-        android:id="@+id/stopButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:onClick="stopClicked"
-        android:text="@string/stop" />
 
     <Button
         android:id="@+id/settingsButton"

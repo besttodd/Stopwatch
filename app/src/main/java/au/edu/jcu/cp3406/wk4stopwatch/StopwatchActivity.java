@@ -13,9 +13,9 @@ import android.widget.TextView;
 public class StopwatchActivity extends AppCompatActivity {
     boolean isRunning = false;
     Stopwatch stopwatch = new Stopwatch();
-    //private int speed = 1000;
     final Handler handler = new Handler();
     Runnable runnable;
+    Button controlButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,12 +29,30 @@ public class StopwatchActivity extends AppCompatActivity {
             stopwatch = new Stopwatch(savedInstanceState.getString("stopwatch"));
             boolean running = savedInstanceState.getBoolean("running");
             stopwatch.setSpeed(savedInstanceState.getInt("speed"));
-            System.out.println("onCREATE() CALLED------------------------------------------------");
             if (running) {
                 enableStopwatch();
             }
         }
         updateDisplay();
+
+        controlButton = findViewById(R.id.startButton);
+        controlButton.setTag(1);
+        controlButton.setText("START");
+        controlButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick (View v) {
+                final int status =(Integer) v.getTag();
+                if(status == 1) {
+                    enableStopwatch();
+                    controlButton.setText("STOP");
+                    v.setTag(0);
+                } else {
+                    disableStopwatch();
+                    controlButton.setText("START");
+                    v.setTag(1);
+                }
+            }
+        });
     }
 
     @Override
@@ -53,22 +71,9 @@ public class StopwatchActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 if (data != null) {
                     stopwatch.setSpeed(data.getIntExtra("speed", 1000));
-                    System.out.println("SPEED = " + stopwatch.getSpeed()+"-----------------------");
                 }
             }
         }
-    }
-
-    public void startClicked (View view) {
-        enableStopwatch();
-        Button start = findViewById(R.id.startButton);
-        start.setEnabled(false);
-    }
-
-    public void stopClicked(View view) {
-        disableStopwatch();
-        Button start = findViewById(R.id.startButton);
-        start.setEnabled(true);
     }
 
     public void resetClicked(View view) {
@@ -76,8 +81,9 @@ public class StopwatchActivity extends AppCompatActivity {
         stopwatch.reset();
         updateDisplay();
         handler.removeCallbacks(runnable);
-        Button start = findViewById(R.id.startButton);
-        start.setEnabled(true);
+
+        controlButton.setText("START");
+        controlButton.setTag(1);
     }
 
     public void settingsClicked(View view) {
