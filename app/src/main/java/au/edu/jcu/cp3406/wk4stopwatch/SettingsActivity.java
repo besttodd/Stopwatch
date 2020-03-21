@@ -12,6 +12,8 @@ import android.widget.TextView;
 public class SettingsActivity extends AppCompatActivity {
     public static int SETTINGS_REQUEST = 222;
     public static int speed = 0;
+    public TextView selectedSpeed;
+    public SeekBar speedBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,11 +22,25 @@ public class SettingsActivity extends AppCompatActivity {
 
         speed = getIntent().getExtras().getInt("speed");
 
-        TextView selectedSpeed = (TextView) findViewById(R.id.selectedSpeed);
+        selectedSpeed = (TextView) findViewById(R.id.selectedSpeed);
         selectedSpeed.setText(Integer.toString(speed));
 
-        SeekBar speedBar = findViewById(R.id.speedBar);
+        speedBar = findViewById(R.id.speedBar);
         speedBar.setProgress(speed);
+
+        speedBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                selectedSpeed.setText(String.valueOf(progress));
+            }
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+        });
     }
 
     public void doneClicked(View view) {
@@ -32,7 +48,6 @@ public class SettingsActivity extends AppCompatActivity {
         try {
             speed = Integer.parseInt(input.getText().toString());
         } catch (NumberFormatException e) {
-            SeekBar speedBar = findViewById(R.id.speedBar);
             speed = speedBar.getProgress();
         }
 

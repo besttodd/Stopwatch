@@ -21,7 +21,8 @@
         android:id="@+id/speedBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:max="3000" />
+        android:max="3000"
+        android:onClick="newSpeed" />
 
     <TextView
         android:id="@+id/selectedSpeed"
