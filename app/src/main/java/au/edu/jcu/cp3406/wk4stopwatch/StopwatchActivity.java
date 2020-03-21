@@ -4,11 +4,12 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.os.Bundle;
-import android.os.Handler;
+import android.os.*;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
+import android.widget.*;
+
+
+import java.util.Objects;
 
 public class StopwatchActivity extends AppCompatActivity {
     boolean isRunning = false;
@@ -26,7 +27,7 @@ public class StopwatchActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             stopwatch = new Stopwatch();
         } else {
-            stopwatch = new Stopwatch(savedInstanceState.getString("stopwatch"));
+            stopwatch = new Stopwatch(Objects.requireNonNull(savedInstanceState.getString("stopwatch")));
             boolean running = savedInstanceState.getBoolean("running");
             stopwatch.setSpeed(savedInstanceState.getInt("speed"));
             if (running) {

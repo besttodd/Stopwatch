@@ -9,6 +9,8 @@ import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import java.util.Objects;
+
 public class SettingsActivity extends AppCompatActivity {
     public static int SETTINGS_REQUEST = 222;
     public static int speed = 0;
@@ -20,7 +22,7 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        speed = getIntent().getExtras().getInt("speed");
+        speed = Objects.requireNonNull(getIntent().getExtras()).getInt("speed");
 
         selectedSpeed = (TextView) findViewById(R.id.selectedSpeed);
         selectedSpeed.setText(Integer.toString(speed));

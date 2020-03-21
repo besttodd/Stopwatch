@@ -15,21 +15,19 @@
         android:ems="10"
         android:inputType="number"
         android:selectAllOnFocus="true"
-        android:text="Enter new speed" />
+        android:text="@string/customSpeed" />
 
     <SeekBar
         android:id="@+id/speedBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:max="3000"
-        android:onClick="newSpeed" />
+        android:max="3000" />
 
     <TextView
         android:id="@+id/selectedSpeed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Not Set" />
+        android:layout_gravity="center" />
 
     <Button
         android:id="@+id/doneButton"
